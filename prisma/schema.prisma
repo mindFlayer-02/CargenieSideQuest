@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id         Int       @id @default(autoincrement())
+  firstName  String
+  lastName   String
+  address    String
+  postalCode String
+  email      String
+  status     Boolean   @default(false)
+  type       String
+  Booking    Booking[]
+}
+
+model Booking {
+  id            Int         @id @default(autoincrement())
+  customer      Customer    @relation(fields: [customerId], references: [id])
+  customerId    Int
+  bookingDate   DateTime    @default(now())
+  pickupDate    DateTime
+  deliveryDate  DateTime
+  bookingStatus Boolean     @default(true)
+  containerType String
+  Invoices      Invoices[]
+  CargoInfo     CargoInfo[]
+}
+
+model Invoices {
+  id            Int      @id @default(autoincrement())
+  booking       Booking  @relation(fields: [bookingId], references: [id])
+  bookingId     Int
+  InvoiceDate   String
+  DueDate       DateTime @default(now())
+  Amount        Int
+  Tax           Int
+  Discount      Int
+  AmountDue     Int
+  PaymentStatus Boolean  @default(false)
+}
+
+model CargoInfo {
+  id            Int          @id @default(autoincrement())
+  booking       Booking      @relation(fields: [bookingId], references: [id])
+  bookingId     Int
+  type          String
+  description   String
+  weigth        Int
+  volume        Int
+  hazardFragile String
+  quantity      Int
+  unitPrice     Int
+  cargoPrice    Int
+  vessels       VesselInfo[]
+}
+
+model VesselInfo {
+  id           Int         @id @default(autoincrement())
+  name         String
+  capacity     Int
+  speed        Int
+  length       Int
+  width        Int
+  type         String
+  status       String
+  grossTonnage Int
+  deadTonnage  Int
+  cargo        CargoInfo[]
+}
