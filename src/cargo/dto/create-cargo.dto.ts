@@ -1,9 +1,7 @@
-export class CreateCargoDto {}
-
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty ,IsInt} from 'class-validator';
 
-export class CreateBookingDto  {
+export class CreateCargoDto  {
 
     @ApiProperty()
     @IsNotEmpty()
@@ -23,7 +21,7 @@ export class CreateBookingDto  {
     @ApiProperty()
     @IsNotEmpty()
     @IsInt()
-    weight: number;
+    weigth: number;
 
 
     @ApiProperty()
@@ -35,7 +33,7 @@ export class CreateBookingDto  {
     @ApiProperty()
     @IsNotEmpty()
     @IsString()
-    hazardous: string;
+    hazardFragile: string;
 
     @ApiProperty()
     @IsNotEmpty()
@@ -51,9 +49,6 @@ export class CreateBookingDto  {
     @IsNotEmpty()
     @IsInt()
     cargoPrice: number;
-
-
-
 
   }
 
